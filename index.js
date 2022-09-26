@@ -7,14 +7,16 @@ let autoPattern = [];
 let inputPattern = [];
 let colors = ['red', 'aqua', 'blue', 'yellow'];
 
-/* Obtaining objects for: start button, title and container (respectively).*/
+/* Obtaining objects for: start, title, container and the start over buttons (respectively).*/
 const startBtn = document.querySelector('.btnStart');
 const head = document.getElementById("upper-text");
 const container = document.querySelector('.container');
+const startOverBtn = document.querySelector('.btnStartOver');
 
 //Function that starts the game.
 function startGame() {
   startBtn.classList.add('hidden'); /*The start button is hidden.*/
+  startOverBtn.classList.remove('hidden'); /*Making the start over button visible */
   nextLevel(); /*We go from level 0 which is the start of the game to level 1 where the game begins.*/
 }
 
@@ -25,9 +27,20 @@ function resetGame(txt) { //Restore all the initial values and restart the game.
     autoPattern = [];
     inputPattern = [];
     startBtn.classList.remove('hidden');
+    startOverBtn.classList.add('hidden');
     head.textContent = 'Simon Game';
     container.classList.add('unclickable');
-  }
+}
+
+//If player wants to start over, we reset the game from first input
+function startOver(txt) { //Restore all the initial values and restart the game.
+  level = 0;
+  autoPattern = [];
+  inputPattern = [];
+  head.textContent = 'Simon Game';
+  container.classList.add('unclickable');
+  nextLevel();
+}
 
 //Function to execute the process of a turn.
 function processTurn(frame) {
@@ -84,7 +97,7 @@ function nextLevel() {
   level += 1; //Level increase.
 
   container.classList.add('unclickable'); //Container becomes unclikable again.
-  head.textContent = `Level ${level} of 20`; //Chenge title text for current level.
+  head.textContent = `Level ${level} of 20`; //Change title text for current level.
 
   const nextPattern = [...autoPattern]; //All elements of the current automatic pattern are copied to the next pattern.
   nextPattern.push(nextFrame()); //The next automatic keystroke is added to the current pattern.
@@ -105,3 +118,5 @@ container.addEventListener('click', event => { //Clickable frames event listener
     processTurn(frame);
   }
 });
+
+startOverBtn.addEventListener('click', startOver); // Manually restart the game
