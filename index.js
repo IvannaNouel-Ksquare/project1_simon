@@ -9,24 +9,25 @@ let autoPattern = [];
 let inputPattern = [];
 let colors = ['red', 'aqua', 'blue', 'yellow'];
 
-/* Obtaining objects for: start, title, container and the start over buttons (respectively).*/
+/* Obtaining objects for: start, title, container, remaining steps and the start over buttons (respectively).*/
 const startBtn = document.querySelector('.btnStart');
 const head = document.getElementById("upper-text");
 const container = document.querySelector('.container');
+const stepsRem = document.getElementById("remainingStep");
 const startOverBtn = document.querySelector('.btnStartOver');
 
 //Objects and attributes for sound
-let audioLabelR = document.createElement("audio");
-audioLabelR.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
+let audioLabelR = document.createElement("audio"); //label declared to create a new element for the audio
+audioLabelR.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'); //audio set to the label by the source given
 
-let audioLabelG = document.createElement("audio");
-audioLabelG.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
+let audioLabelA = document.createElement("audio");//label declared to create a new element for the audio
+audioLabelA.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');//audio set to the label by the source given
 
-let audioLabelB = document.createElement("audio");
-audioLabelB.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
+let audioLabelB = document.createElement("audio");//label declared to create a new element for the audio
+audioLabelB.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');//audio set to the label by the source given
 
-let audioLabelY = document.createElement("audio");
-audioLabelY.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
+let audioLabelY = document.createElement("audio");//label declared to create a new element for the audio
+audioLabelY.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');//audio set to the label by the source given
 
 
 //Function that starts the game.
@@ -50,6 +51,7 @@ function resetGame(txt) { //Restore all the initial values and restart the game 
   inputPattern = [];
   startBtn.classList.remove('hidden');
   startOverBtn.classList.add('hidden');
+  
   head.textContent = 'Simon Game';
   container.classList.add('unclickable');
 }
@@ -61,6 +63,7 @@ function startOver() { //Restore all the initial values and restart the game wit
   lostPattern = [...autoPattern]
   autoPattern = [];
   inputPattern = [];
+  stepsRem.textContent = ' ';
   container.classList.add('unclickable');
   nextLevel();
 }
@@ -68,10 +71,15 @@ function startOver() { //Restore all the initial values and restart the game wit
 //Function to execute the process of a turn.
 function processTurn(frame) {
   const index = inputPattern.push(frame) - 1;
+  const remainingTaps = autoPattern.length - inputPattern.length;
+
+ 
 
   if (inputPattern[index] !== autoPattern[index]) { //If the input pattern is different to the auto pattern the player will lose.
     lost = true;
     resetGame('Game Over! You got the pattern wrong. Try again!');
+    stepsRem.textContent = ``;
+
     return;
   }
 
@@ -86,52 +94,53 @@ function processTurn(frame) {
       startBtn.classList.remove('hidden');
       startBtn.innerText = 'Start again?';
       startOverBtn.classList.add('hidden');
+      stepsRem.textContent = ``;
       head.textContent = 'Congratulations, you won the game, you are a true simon master';
       container.classList.add('unclickable');
       return;
     }else{
+      stepsRem.textContent = `Well done!`;
       setTimeout(() => { //Next level delay.
         nextLevel();
       }, 1000);
       return;
     }
   }
+  if (remainingTaps>0) {
+    stepsRem.textContent = `Remaining taps: ${remainingTaps}`;
+  }else{
+    
+  }
+  
 }
 
 /*Function to start player's turn.*/
 function inputTurn(level) {
+  stepsRem.textContent= `Your turn`;
   container.classList.remove('unclickable'); /* We make the container clickable. */
+  
 }
 
 /*Function for activating frame clicks during gameplay. */
 function frameAction(color) {
-  const tile = document.getElementById(color);
-
-  console.log(tile);
- 
-  
-  switch (tile) {
+  const tile = document.getElementById(color); //object declared to know the color of the pushed button
+  switch (tile) { //With the switch based on the tile object, depending of the given color is going to reproduce the sound set previously
     case red:
-      
       audioLabelR.play();  
       break;
     case aqua:
-      
-      audioLabelG.play(); 
+      audioLabelA.play(); 
       break;
     case blue:
-      
       audioLabelB.play(); 
       break;
     case yellow:
-      
       audioLabelY.play();  
-
       break; 
   }
 
   tile.classList.add('action'); /* I call a CSS event to trigger it in a frame and recreate an auto keystoke.*/
-
+  stepsRem.textContent= `Wait for Simon...`;
   setTimeout(() => { /* Delay for auto keystroke. */
     tile.classList.remove('action'); /*I end the auto keystroke.*/
   }, 350);
@@ -220,11 +229,11 @@ let blueB = document.querySelector(".blueSound");
       audioLabelB.play();  
     });
 
-let greenB = document.querySelector(".aquaSound");
+let aquaB = document.querySelector(".aquaSound");
 
-    greenB.addEventListener("click", () => {
+    aquaB.addEventListener("click", () => {
      
-      audioLabelG.play();  
+      audioLabelA.play();  
     });
 
 

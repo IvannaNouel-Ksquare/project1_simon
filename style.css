@@ -33,8 +33,13 @@ body {
     display: flex;
     margin: auto;
     justify-content: center;
-    padding-top: 5%;
+    padding-top: .7%;
 
+}
+
+.stepsRemaining{
+    font-size: 20px;
+    text-align: center;
 }
 
 .containerRed {
