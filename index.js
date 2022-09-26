@@ -15,6 +15,20 @@ const head = document.getElementById("upper-text");
 const container = document.querySelector('.container');
 const startOverBtn = document.querySelector('.btnStartOver');
 
+//Objects and attributes for sound
+let audioLabelR = document.createElement("audio");
+audioLabelR.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
+
+let audioLabelG = document.createElement("audio");
+audioLabelG.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
+
+let audioLabelB = document.createElement("audio");
+audioLabelB.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
+
+let audioLabelY = document.createElement("audio");
+audioLabelY.setAttribute("src", 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
+
+
 //Function that starts the game.
 function startGame() {
   startBtn.innerText = 'Start';
@@ -93,6 +107,29 @@ function inputTurn(level) {
 function frameAction(color) {
   const tile = document.getElementById(color);
 
+  console.log(tile);
+ 
+  
+  switch (tile) {
+    case red:
+      
+      audioLabelR.play();  
+      break;
+    case aqua:
+      
+      audioLabelG.play(); 
+      break;
+    case blue:
+      
+      audioLabelB.play(); 
+      break;
+    case yellow:
+      
+      audioLabelY.play();  
+
+      break; 
+  }
+
   tile.classList.add('action'); /* I call a CSS event to trigger it in a frame and recreate an auto keystoke.*/
 
   setTimeout(() => { /* Delay for auto keystroke. */
@@ -162,5 +199,33 @@ container.addEventListener('click', event => { //Clickable frames event listener
     processTurn(frame);
   }
 });
+
+let redB = document.querySelector(".redSound");
+
+    redB.addEventListener("click", () => {
+      audioLabelR.play();  
+    });
+
+let yelB = document.querySelector(".yellowSound");
+
+    yelB.addEventListener("click", () => {
+      
+      audioLabelY.play();  
+    });
+
+let blueB = document.querySelector(".blueSound");
+
+    blueB.addEventListener("click", () => {
+      
+      audioLabelB.play();  
+    });
+
+let greenB = document.querySelector(".aquaSound");
+
+    greenB.addEventListener("click", () => {
+     
+      audioLabelG.play();  
+    });
+
 
 startOverBtn.addEventListener('click', startOver); // Manually restart the game
