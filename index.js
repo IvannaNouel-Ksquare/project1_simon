@@ -17,6 +17,7 @@ const startOverBtn = document.querySelector('.btnStartOver');
 
 //Function that starts the game.
 function startGame() {
+  startBtn.innerText = 'Start';
   startBtn.classList.add('hidden'); /*The start button is hidden.*/
   startOverBtn.classList.remove('hidden'); /*Making the start over button visible */
   nextLevel(); /*We go from level 0 which is the start of the game to level 1 where the game begins.*/
@@ -24,17 +25,19 @@ function startGame() {
 
 //Reset game function.
 function resetGame(txt) { //Restore all the initial values and restart the game to the last pattern played.
+  if(txt !== ''){
     alert(txt);
-    level = 0;
-    if (lost) { //Check if if the game is lost, if so, save the last pattern to play it again from the beginning.
-      lostPattern = [...autoPattern];
-    }
-    autoPattern = [];
-    inputPattern = [];
-    startBtn.classList.remove('hidden');
-    startOverBtn.classList.add('hidden');
-    head.textContent = 'Simon Game';
-    container.classList.add('unclickable');
+  }
+  level = 0;
+  if (lost) { //Check if if the game is lost, if so, save the last pattern to play it again from the beginning.
+    lostPattern = [...autoPattern];
+  }
+  autoPattern = [];
+  inputPattern = [];
+  startBtn.classList.remove('hidden');
+  startOverBtn.classList.add('hidden');
+  head.textContent = 'Simon Game';
+  container.classList.add('unclickable');
 }
 
 //If player wants to start over, we reset the game from first input
@@ -60,10 +63,24 @@ function processTurn(frame) {
 
   if (inputPattern.length === autoPattern.length) { //If the patterns are the same, we proceed to the next level.
     inputPattern = [];
-    setTimeout(() => { //Next level delay.
-      nextLevel();
-    }, 1000);
-    return;
+    if(autoPattern.length === 20){
+      //If the player actually wins the game, they have the option to start over with a new pattern
+      lost = false;
+      level = 0;
+      autoPattern = [];
+      inputPattern = [];
+      startBtn.classList.remove('hidden');
+      startBtn.innerText = 'Start again?';
+      startOverBtn.classList.add('hidden');
+      head.textContent = 'Congratulations, you won the game, you are a true simon master';
+      container.classList.add('unclickable');
+      return;
+    }else{
+      setTimeout(() => { //Next level delay.
+        nextLevel();
+      }, 1000);
+      return;
+    }
   }
 }
 
