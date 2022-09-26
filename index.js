@@ -1,8 +1,10 @@
 console.log('Live reloading')
 
-/* Variables declaration for: level in progress, automatic pattern, 
-pattern entered and colors of the frames (respectively).*/
+/* Variables declaration for: level in progress, automatic pattern, boolean lost game, 
+lost game pattern, pattern entered and colors of the frames (respectively).*/
 let level = 0;
+let lost = false;
+let lostPattern = [];
 let autoPattern = [];
 let inputPattern = [];
 let colors = ['red', 'aqua', 'blue', 'yellow'];
@@ -21,9 +23,12 @@ function startGame() {
 }
 
 //Reset game function.
-function resetGame(txt) { //Restore all the initial values and restart the game.
+function resetGame(txt) { //Restore all the initial values and restart the game to the last pattern played.
     alert(txt);
     level = 0;
+    if (lost) { //Check if if the game is lost, if so, save the last pattern to play it again from the beginning.
+      lostPattern = [...autoPattern];
+    }
     autoPattern = [];
     inputPattern = [];
     startBtn.classList.remove('hidden');
@@ -33,11 +38,12 @@ function resetGame(txt) { //Restore all the initial values and restart the game.
 }
 
 //If player wants to start over, we reset the game from first input
-function startOver() { //Restore all the initial values and restart the game.
+function startOver() { //Restore all the initial values and restart the game without going to inicial state.
   level = 0;
+  lost = true;
+  lostPattern = [...autoPattern]
   autoPattern = [];
   inputPattern = [];
-  head.textContent = 'Simon Game';
   container.classList.add('unclickable');
   nextLevel();
 }
@@ -47,6 +53,7 @@ function processTurn(frame) {
   const index = inputPattern.push(frame) - 1;
 
   if (inputPattern[index] !== autoPattern[index]) { //If the input pattern is different to the auto pattern the player will lose.
+    lost = true;
     resetGame('Game Over! You got the pattern wrong. Try again!');
     return;
   }
@@ -95,18 +102,38 @@ function nextFrame() {
   it starts the next sequence of clicks in the boxes).*/
 function nextLevel() {
   level += 1; //Level increase.
-
-  container.classList.add('unclickable'); //Container becomes unclikable again.
+  container.classList.add('unclickable'); //Container becomes unclikable again..
   head.textContent = `Level ${level} of 20`; //Change title text for current level.
+  
+  if (lost) { //Check if the game is lost, if so, play with the lost pattern until it is completed.
+    previousPattern();
+    return;
+  }
 
-  const nextPattern = [...autoPattern]; //All elements of the current automatic pattern are copied to the next pattern.
-  nextPattern.push(nextFrame()); //The next automatic keystroke is added to the current pattern.
-  playLevel(nextPattern);
+  const nextSequence = [...autoPattern]; //All elements of the current automatic pattern are copied to the next pattern.
+  nextSequence.push(nextFrame()); //The next automatic keystroke is added to the current pattern.
+  playLevel(nextSequence); //We proceed to play the next level.
 
-  autoPattern = [...nextPattern]; //I send the following pattern to your main array.
+  autoPattern = [...nextSequence]; //I send the following pattern to your main array.
   setTimeout(() => { //Delay to separate automatic and player patterns.
     inputTurn(level);
   }, level * 600 + 1000);
+}
+
+//Function to start the next level from the pattern of the last lost game.
+function previousPattern() {
+  const nextSequence = [...autoPattern]; //All elements of the current automatic pattern are copied to the next pattern.
+  nextSequence.push(lostPattern.shift()); //The next automatic keystroke is added to the current pattern from lost one and I'm eliminating those of the lost pattern.
+  playLevel(nextSequence); //We proceed to play the next level.
+
+  autoPattern = [...nextSequence]; //I send the following pattern to your main array.
+  setTimeout(() => { //Delay to separate automatic and player patterns.
+    inputTurn(level);
+  }, level * 600 + 1000);
+
+  if (lostPattern.length === 0) { //I check if there are still elements of the missing pattern.
+    lost = false;
+  }
 }
 
 startBtn.addEventListener('click', startGame); //Start game event.
