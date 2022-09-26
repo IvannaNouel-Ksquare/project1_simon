@@ -33,7 +33,7 @@ function resetGame(txt) { //Restore all the initial values and restart the game.
 }
 
 //If player wants to start over, we reset the game from first input
-function startOver(txt) { //Restore all the initial values and restart the game.
+function startOver() { //Restore all the initial values and restart the game.
   level = 0;
   autoPattern = [];
   inputPattern = [];
