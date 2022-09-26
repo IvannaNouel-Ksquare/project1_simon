@@ -124,6 +124,11 @@ function inputTurn(level) {
 /*Function for activating frame clicks during gameplay. */
 function frameAction(color) {
   const tile = document.getElementById(color); //object declared to know the color of the pushed button
+  tile.classList.add('action'); /* I call a CSS event to trigger it in a frame and recreate an auto keystoke.*/
+  
+  stepsRem.textContent= `Wait for Simon...`;
+  setTimeout(() => { /* Delay for auto keystroke. */
+  
   switch (tile) { //With the switch based on the tile object, depending of the given color is going to reproduce the sound set previously
     case red:
       audioLabelR.play();  
@@ -137,11 +142,8 @@ function frameAction(color) {
     case yellow:
       audioLabelY.play();  
       break; 
+      
   }
-
-  tile.classList.add('action'); /* I call a CSS event to trigger it in a frame and recreate an auto keystoke.*/
-  stepsRem.textContent= `Wait for Simon...`;
-  setTimeout(() => { /* Delay for auto keystroke. */
     tile.classList.remove('action'); /*I end the auto keystroke.*/
   }, 350);
 }
