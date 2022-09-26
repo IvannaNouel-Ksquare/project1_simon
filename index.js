@@ -40,10 +40,15 @@ function processTurn(frame) {
 
   if (inputPattern.length === autoPattern.length) { //If the patterns are the same, we proceed to the next level.
     inputPattern = [];
-    setTimeout(() => { //Next level delay.
-      nextLevel();
-    }, 1000);
-    return;
+    if(autoPattern.length === 20){
+      resetGame("Congratulations, you won the game, you are a true simon master");
+      return;
+    }else{
+      setTimeout(() => { //Next level delay.
+        nextLevel();
+      }, 1000);
+      return;
+    }
   }
 }
 
