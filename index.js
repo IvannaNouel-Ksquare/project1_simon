@@ -127,8 +127,6 @@ function frameAction(color) {
   tile.classList.add('action'); /* I call a CSS event to trigger it in a frame and recreate an auto keystoke.*/
   
   stepsRem.textContent= `Wait for Simon...`;
-  setTimeout(() => { /* Delay for auto keystroke. */
-  
   switch (tile) { //With the switch based on the tile object, depending of the given color is going to reproduce the sound set previously
     case red:
       audioLabelR.play();  
@@ -142,10 +140,10 @@ function frameAction(color) {
     case yellow:
       audioLabelY.play();  
       break; 
-      
   }
+  setTimeout(() => { /* Delay for auto keystroke. */
     tile.classList.remove('action'); /*I end the auto keystroke.*/
-  }, 350);
+  }, 400);
 }
 
 /*Function to play the corresponding round or level.*/
@@ -153,7 +151,7 @@ function playLevel(nextPattern) {
   nextPattern.forEach((color, index) => { /*Iterator for each color and index combination and activate the keystrokes later.*/
     setTimeout(() => { /*Delay between auto keystrokes. */
       frameAction(color);
-    }, (index + 1) * 550);
+    }, (index + 1) * 700);
   });
 }
 
