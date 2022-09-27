@@ -1,6 +1,6 @@
 # Project I
 
-Welcome! This repo contains helpful information and starter files for your project, just fork this repo and go to town!
+Welcome! This repo contains the code for the Simon game proyect. Here is some info about the team and a live demo at the end.
 
 ## Team members
 
