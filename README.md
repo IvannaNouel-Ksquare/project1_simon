@@ -13,8 +13,6 @@ Welcome! This repo contains the code for the Simon game proyect. Here is some in
 
 ## Assignation 
 
-Please use this format for your User Stories assignations
-
 | User Stories     | Ivanna Nouel | Junios Cabrera | Nathaly Marrufo | Gerardo Vazquez |
 | ---------------- | :---: | :---: | :---: | :---: |
 | As a user, I need to see an interface resembling the Simon Says game with 4 quadrants each with differents colors and they should be clickable, this needs to be perfectly centered and have enough space between each quadrant. |  X   |      |      |      |  
@@ -28,8 +26,4 @@ Please use this format for your User Stories assignations
 
 # Live demo
 
-Please include here a link to your [live demo](https://ivannanouel-ksquare.github.io/project1_simon/)
-
-# Requeriments
-You need to use the same version of node that we use in class and no external dependices can be used. This means no frameworks or libraries.
-
+You can try for yourself the game in the [live demo](https://ivannanouel-ksquare.github.io/project1_simon/)
